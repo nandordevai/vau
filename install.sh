@@ -1,7 +1,5 @@
 #!/bin/sh
 
-sudo apt-get install python3-pip
-sudo apt-get install python-pyaudio
-sudo apt-get install flac
+sudo apt install python3-pip python-pyaudio flac omxplayer
 pip3 install SpeechRecognition
 pip3 freeze > requirements.txt
