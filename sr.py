@@ -2,6 +2,7 @@
 
 from threading import Thread
 from queue import Queue
+from datetime import datetime
 import os
 import random
 
@@ -10,25 +11,32 @@ import speech_recognition as sr
 
 r = sr.Recognizer()
 audio_queue = Queue()
+logfile = open('vau.log', 'a')
+
+
+def write_log(msg):
+    d = datetime.isoformat(datetime.now())
+    logfile.write('{} {}\n'.format(d, msg))
 
 
 def recognize_worker():
+    write_log('Starting translator')
     while True:
         audio = audio_queue.get()
         if audio is None:
             break
-        print('*** Recognizing audio...')
+        write_log('Recognizing audio...')
         try:
             text = r.recognize_google(audio, language='hu-HU')
-            print('*** got back ', text)
+            write_log('got back {}'.format(text))
             num = random.randint(1, 13)
             os.system('omxplayer ./clips/dog/{}.mp3'.format(num))
         except sr.UnknownValueError:
-            print('*** Could not recognize')
+            write_log('Could not recognize')
             num = random.randint(1, 23)
             os.system('omxplayer ./clips/human/{}.mp3'.format(num))
         except sr.RequestError as e:
-            print('*** Could not request results ({0})'.format(e))
+            write_log('Could not request results ({0})'.format(e))
             audio_queue.task_done()
 
 
