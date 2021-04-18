@@ -11,7 +11,7 @@ import speech_recognition as sr
 
 r = sr.Recognizer()
 audio_queue = Queue()
-logfile = open('vau.log', 'a')
+logfile = open('vau.log', mode='a', buffering=1)
 
 
 def write_log(msg):
