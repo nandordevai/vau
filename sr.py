@@ -19,6 +19,7 @@ def write_log(msg):
 
 
 def callback(recognizer, audio):
+    os.system('omxplayer ./process.aif')
     write_log('Recognizing audio...')
     try:
         text = recognizer.recognize_google(audio, language='hu-HU')
@@ -35,7 +36,7 @@ def callback(recognizer, audio):
 
 write_log('Starting translator')
 
-r.energy_threshold = 500
+r.energy_threshold = 2000
 mic = sr.Microphone(device_index=1)
 with mic as source:
     r.adjust_for_ambient_noise(source)
