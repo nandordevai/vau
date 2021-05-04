@@ -19,28 +19,30 @@ def write_log(msg):
 
 
 def callback(recognizer, audio):
-    os.system('omxplayer ./process.aif')
+    os.system('omxplayer ./process.aif > /dev/null 2>&1')
     write_log('Recognizing audio...')
     try:
         text = recognizer.recognize_google(audio, language='hu-HU')
         write_log('👱 got back {}'.format(text))
         num = random.randint(1, 13)
-        os.system('omxplayer ./clips/dog/{}.mp3'.format(num))
+        os.system('omxplayer ./clips/dog/{}.mp3 > /dev/null 2>&1'.format(num))
     except sr.UnknownValueError:
         write_log('🐶 Could not recognize')
         num = random.randint(1, 23)
-        os.system('omxplayer ./clips/human/{}.mp3'.format(num))
+        os.system('omxplayer ./clips/human/{}.mp3 > /dev/null 2>&1'.format(num))
     except sr.RequestError as e:
         write_log('Could not request results ({0})'.format(e))
+    except Exception as e:
+        write_log('Something bad happened: {}'.format(e))
 
 
 write_log('Starting translator')
 
-r.energy_threshold = 2000
+r.energy_threshold = 20000
 mic = sr.Microphone(device_index=1)
 with mic as source:
     r.adjust_for_ambient_noise(source)
 
-stop_listening = r.listen_in_background(mic, callback)
+stop_listening = r.listen_in_background(mic, callback, phrase_time_limit=3)
 while True:
     time.sleep(0.1)
