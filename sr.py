@@ -38,7 +38,8 @@ def callback(recognizer, audio):
 
 write_log('Starting translator')
 
-r.energy_threshold = 20000
+r.energy_threshold = 500
+r.dynamic_energy_threshold = False
 mic = sr.Microphone(device_index=1)
 with mic as source:
     r.adjust_for_ambient_noise(source)
