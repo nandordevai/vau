@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROCESS2RUN="python sr.py"
+PROCESS2RUN="python3 sr.py"
 MONITOR_SCRIPT="monitor.py"
 
 cd /home/pi/vau
