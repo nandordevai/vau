@@ -22,7 +22,7 @@ def callback(recognizer, audio):
     os.system('omxplayer ./process.aif > /dev/null 2>&1')
     write_log('Recognizing audio...')
     try:
-        text = recognizer.recognize_google(audio, language='hu-HU')
+        text = recognizer.recognize_google_cloud(audio, language='hu-HU')
         write_log('👱 got back {}'.format(text))
         num = random.randint(1, 13)
         os.system('omxplayer ./clips/dog/{}.mp3 > /dev/null 2>&1'.format(num))
